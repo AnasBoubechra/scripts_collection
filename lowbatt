@@ -15,7 +15,6 @@ while :; do
 	read -r BatPercent < "$BatteryDir/capacity"
 	if [ "$BatStatus" = "Discharging" ] && [ $BatPercent -le $MinPercent ]; then
 		notify-send -u critical "Low Battery: $BatPercent%"
-		say_this "Low battery SSSSSSSSSsssooooossssssssss"
 	fi
 	sleep $Refresh
 done 

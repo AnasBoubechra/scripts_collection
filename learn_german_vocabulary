@@ -1,5 +1,0 @@
-#!/bin/bash
-cat ~/Documents/vimwiki/german.md | awk '/^[a-z]/ && last {print $0,"\t",last} {last=""} /^#/{last=$0}' | column -t -s $'\t' | dmenu -p "~>" -l 30 -fn "Monokai Nerd Font:size=21" -nb "#222222" -nf "#bbbbbb" -sb "#475053" -sf "#eeeeee"
-
-
-
