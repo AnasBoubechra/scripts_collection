@@ -1,0 +1,11 @@
+#!/bin/sh
+VAR=$1
+filename=$(echo ${VAR} | sed 's/\..*/.html/')
+pandoc --toc \
+	--metadata title="$(basename $(sed 's/\..*//' <<< $filename))" \
+	-f markdown -t html5 ${VAR} -o $filename \
+	--self-contained \
+	--css=/home/dy/Documents/linux_n_stuff/css/style.css
+librewolf $filename & 
+#/home/dy/Documents/linux_n_stuff/css/metadata.yaml \g
+

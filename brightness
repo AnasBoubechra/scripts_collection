@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# You can call this script like this:
+# $./brightness.sh up
+# $./brightness.sh down
+
+# Based on sebastiencs' script (https://gist.github.com/sebastiencs/5d7227f388d93374cebdf72e783fbd6a)
+
+function get_brightness {
+	brightnessctl g
+}
+
+function send_notification {
+    brightness=`get_brightness`
+    brightness=${brightness%%.*}
+    # Make the bar with the special character  (it's not dash -) Make sure it's not replaced by '?'
+    # https://en.wikipedia.org/wiki/Box-drawing_character
+    bar=$(seq -s "─" $(($brightness / 5)) | sed 's/[0-9]//g')
+    #Send the notification
+	case $brightness in
+		*)
+		dunstify -i notification-display-brightness -r 2593 -t 1000 -u normal "$brightness:      $bar"
+		;;
+	esac
+}
+VAR=$2
+case $1 in
+    up)
+	brightnessctl -e set ${VAR}%+
+    send_notification
+	;;
+    down)
+    brightnessctl -e set ${VAR}%- 
+	send_notification
+	;;
+esac
+

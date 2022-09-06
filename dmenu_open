@@ -1,0 +1,41 @@
+#!/bin/sh
+
+check(){
+	if [ -z $1 ];
+	then
+		exit
+	fi
+}
+choice=$(find ~ -type f | dmenu -i -p "  Open File " -l 20)
+
+check $choice
+TERM="alacritty -e "
+MUS="mpv --no-video"
+EDITOR="nvim"
+IMG="sxiv"
+MPV="mpv"
+PDF="zathura"
+TAR="tar -xvzf"
+ZIP="unzip"
+# BROWSER="librewolf"
+# *.html) 
+#         $BROWSER "$choice"&>/dev/null & disown;;
+
+case "$choice" in
+    *.tar.gz) 
+            $TAR "$choice" &>/dev/null & disown;;
+    *.tgz)  
+            $TAR "$choice" &>/dev/null & disown;;
+    *.mp4|*.mkv|*.webm|*.wav|*.ac3|*.wma)     
+            $MPV "$choice" &>/dev/null & disown;;
+    *.mp3|*.ogg) 
+            $MUS "$choice" &>/dev/null & disown;;
+    *.zip)  
+            $ZIP "$choice" &>/dev/null & disown;;
+    *.jpeg|*.JPEG|*.gif|*.GIF|*.png|*.JPG|*.jpg) 
+            $IMG "$choice" &>/dev/null & disown;;
+    *.pdf|*.PDF)      
+            $PDF "$choice" &>/dev/null & disown;;
+    *)       
+            $TERM $EDITOR "$choice" &>/dev/null & disown;;
+esac 

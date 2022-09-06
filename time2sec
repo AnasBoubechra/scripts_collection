@@ -1,0 +1,23 @@
+#!/bin/sh
+# Function that converts "xx:xx:xx" time format to seconds
+tim2sec() {
+    mult=1
+    arg="$1"
+    res=0
+    while [ ${#arg} -gt 0 ]; do
+        prev="${arg%:*}"
+        if [ "$prev" = "$arg" ]; then
+            curr="${arg#0}"  # avoid interpreting as octal
+            prev=""
+        else
+            curr="${arg##*:}"
+            curr="${curr#0}"  # avoid interpreting as octal
+        fi
+        curr="${curr%%.*}"  # remove any fractional parts
+        res=$((res+curr*mult))
+        mult=$((mult*60))
+        arg="$prev"
+    done
+    echo "$res"
+}
+

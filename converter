@@ -1,0 +1,25 @@
+#!/bin/sh
+
+ARG1=$1
+ARG2=$2
+
+error(){
+echo "\
+$(basename "$0") converter extension1 extension2
+
+    Usage: converter extension1 extension2
+    Note: This will convert all the files in this dir: $(pwd)
+    converter jpg png"
+    exit 1
+}
+
+conv(){
+    ls *.$ARG1 | xargs -I{} convert {} {}.$ARG2 || error
+    sleep 1
+    rename .${ARG1} '' *.$ARG2
+}
+
+if [ -z $ARG1 || -z $ARG2 ] && error 
+ifinstalled imagemagick
+conv
+

@@ -1,0 +1,23 @@
+#!/bin/bash
+#Dy@Ducky
+options=$'lock\nexit\nreboot\nshutdown' 
+answer=$(echo "$options" | dmenu -i)
+if [ -z $answer ] ;
+then 
+	exit
+fi
+case $answer in
+     l|lock|Lock)
+         slock 
+         ;;
+    s|shutdown|Shutdown)
+        shutdown -h now
+        ;;
+    r|reboot|Reboot)
+        reboot
+        ;;
+    *)
+        exit
+        ;;
+esac
+

@@ -1,0 +1,10 @@
+#!/bin/sh
+note="$HOME/Documents/notes/note-$(date +%Y-%m-%d).md"
+if [ ! -f $note ]; then  
+    echo "# Notes For $(date +%Y-%m-%d)" > $note
+fi
+nvim -c "norm Go" \
+    -c "norm Go## $(date +%H:%M)" \
+    -c "norm G2o" \
+    -c "norm zz" \
+    -c "startinsert" $note

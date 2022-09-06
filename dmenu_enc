@@ -1,0 +1,44 @@
+#!/bin/sh
+#Dy@Ducky
+ans=$(echo "" | dmenu -p "Enc or Dec ?")
+checkemp(){
+if [ -z $1 ];
+then 
+    exit
+fi
+}
+encrypt(){
+    openssl enc -e -aes-256-cbc \
+  -salt \
+  -pbkdf2 \
+  -iter 1000000 \
+  -md sha512 \
+  -base64 \
+  -in $enc \
+  -out ${enc}.enc
+}
+decrypt(){
+    openssl enc -d -aes-256-cbc \
+  -salt \
+  -pbkdf2 \
+  -iter 1000000 \
+  -md sha512 \
+  -base64 \
+  -in ${enc} \
+  -out $(sed 's/\.enc//' <<< ${enc})
+}
+checkemp $ans
+enc=$(find /mnt -type f | dmenu -i -l 15 -p "Select the file to enc/dcr: ")
+checkemp $enc
+case $ans in
+    enc)
+        encrypt && echo "${enc}.enc" | tr -d '\n' | xclip -selection clipboard \
+          && dunstify "Succefully Encryped" "$enc"
+        ;;
+    dec|dcr|dc)
+        decrypt && xclip -selection clipboard $(sed 's/\.enc//' <<< ${enc}) && dunstify "Succefully Decrypted" "${enc}"
+        ;;
+    *)
+        exit
+        ;;
+esac

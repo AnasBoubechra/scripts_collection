@@ -1,0 +1,6 @@
+#!/bin/sh
+VAR=$1
+pdfname=$(echo ${VAR} | sed 's/\..*/.pdf/')
+pandoc --toc \
+	$VAR --template=/home/dy/Documents/linux_n_stuff/css/template.tex \
+	--pdf-engine=xelatex -o $pdfname && zathura $pdfname &
