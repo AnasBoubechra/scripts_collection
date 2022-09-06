@@ -32,7 +32,7 @@ Open files, videos, and so on with dmenu
 
 Record your webcam, screen, audio (ffmpeg, slot)
 
-### dmenu_screeshot 
+### dmenu_screenshot 
 
 Easily take screenshots !
 
